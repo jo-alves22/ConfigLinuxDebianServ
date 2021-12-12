@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documentação para instalação de Servidor Linux Debbian</title>
+<!-- Stylesheets -->
+<link href="css/bootstrap.css" rel="stylesheet">
+<link href="css/style.css" rel="stylesheet">
+<link href="css/scrollbar.css" rel="stylesheet">
+<!-- Responsive -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<!--[if lt IE 9]><script src="js/respond.js"></script><![endif]-->
+</head>
+
+<body>
+<!--Page Wrapper-->
+<div class="page-wrapper">
+    
+    <!--Sidebar-->
+    <aside id="sidebar">
+    	
+        <!--Toggle Button-->
+        <div class="button-container clearfix"><div class="menu-toggle flaticon-menu10"></div></div>
+        
+        <!--Menu Box-->
+        <div class="menu-box">
+        	<!--Logo-->
+			<br>
+        	<div class="logo text-right"><a href="#"><img src="images/logo02.png" alt=""></a></div>
+            
+            <!--Sticky Menu-->
+            <nav class="sticky-menu">
+            	<ul>
+                	<li class="current"><a href="#intro">1) Introdução<span class="fa fa-arrow-right"></span></a></li>
+                    <li><a href="#parteDois">2) Servidores e Sistemas Operacionais<span class="fa fa-arrow-right"></span></a></li>
+                    <li><a href="#parteTres">3) Preparando o ambiente para o projeto<span class="fa fa-arrow-right"></span></a></li>
+                    <li><a href="#parteQuatro">4) Servidores DHCP<span class="fa fa-arrow-right"></span></a></li>
+                    <li><a href="#parteCinco">5) Servidores DNS<span class="fa fa-arrow-right"></span></a></li>
+                    <li><a href="#parteSeis">6) Servidor WEB<span class="fa fa-arrow-right"></span></a></li>
+                    <li><a href="#parteSete">7) Servidor de Compartilhamento de Arquivo com Protocolo NFS<span class="fa fa-arrow-right"></span></a></li>
+                    <li><a href="#parteOito">8) Referências<span class="fa fa-arrow-right"></span></a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="copyright">Copyright &copy; Fatec 2021</div>
+    </aside>
+    
+    <div id="content-section">
+        <!--Introdução-->
+        <section class="section introduction" id="intro">
+        	<div class="sec-title">
+            	<span class="icon fa fa-location-arrow"></span>
+                <h2>Introdução</h2>
+            </div>
+            <br>
+            <div class="sec-content">
+            	<h2>1. Introdução</h2>
+                <p>O projeto de configuração de servidores utiliza o sistema operacional Linux
+                    Debian e também um ambiente que simula o acesso do cliente ao servidor.
+                    O projeto realizado no sistema de gerenciamento de máquinas virtual Virtual-Box,
+                    consiste em mostrar, passo a passo, todo o processo de configuração de ambos os ambientes.</p>
+                <p>A máquina servidor, identificada como <b>‘serverProj’</b>,  terá as configurações de servidores DHCP,
+                    DNS, Web e NFS, a fim de permitir que a máquina cliente, identificada como <b>‘clienteProj’</b>,
+                    receba os parâmetros adequados de configuração e se comunique ao servidor, possibilitando assim
+                    a transferência de arquivos.</p>
+                <p>O range de IPs definido pelo servidor DHCP é 192.168.1.5 - 192.168.1.10. O servidor
+                    <b>serverProj</b> terá IPv4 192.168.1.1 e o cliente <b>clienteProj</b> receberá o
+                    IPv4 192.168.1.1</p>
+                <p>O servidor Web será o Apache, servidor Web de código aberto, para disponibilizar
+                    o acesso a páginas mantidas no ambiente <b>serverProj</b>. No projeto em questão.</p>
+                <p>As configurações dos serviços de compartilhamento de arquivo foram usados o protocolo
+                    NFS, Network File System, onde criamos um diretório chamado <i>cnfs</i>, desta forma,
+                    fizemos as configurações na máquina cliente e acessar os diretórios arquivos do
+                    servidor.</p>
+            </div>
+        </section>
+        <!--Servidores e Sistemas Operacionais-->
+        <section class="section html-structure" id="parteDois">
+        	<div class="sec-title">
+            	<span class="icon fa fa-linux"></span>
+                <h2>Servidores e Sistemas Operacionais</h2>
+            </div>
+            <br>
+            <div class="sec-content">
+                <h2>2. Servidores e Sistemas Operacionais</h2>
+                <br>
+                    <h3>2.1 Servidores</h3>
+                        <p>Os Servidores de computação <i>(servers)</i> são computadores utilizados para
+                        entregar serviços para as demais máquinas de uma rede, como a Internet. Geralmente,
+                        possuem Hardware específico e Sistemas Operacionais próprios. Esses serviços
+                        podem oferecer serviços de naturezas distintas, como por exemplo, arquivos,
+                        correio eletrônico ou nomes de domínio.</p>
+                        <p>O conjunto desses sistemas e hardware, também definidos como arquitetura,
+                        é chamada de modelo cliente-servidor. É utilizada em redes de pequeno, médio
+                        e grande porte e realiza o armazenamento e compartilhamento de dados entre
+                        clientes.</p>
+                        <p>O termo servidor é amplamente aplicado a computadores completos, embora um
+                        servidor possa ser um software, partes de um sistema computacional ou até
+                        mesmo máquinas que não são, necessariamente, um computador <i>(IoT)</i>.</p>
+                        <p>Os servidores podem fornecer diversas funcionalidades, muitas vezes chamadas
+                        de "serviços", como a partilha de dados ou de recursos do sistema entre vários
+                        clientes. Um único servidor pode servir vários clientes, e um único cliente
+                        pode usar vários servidores. Um processo cliente pode ser executado no mesmo
+                        dispositivo ou pode se conectar através de uma rede para um servidor em um
+                        dispositivo diferente.</p>
+                    <br>
+                    <h3>2.2 Sistemas Operacionais</h3>
+                        <p>Sistema Operacional é um software ou conjunto de softwares cuja função é
+                        administrar e gerenciar os recursos de um sistema, desde seus componentes
+                        de hardware aos sistemas de arquivos e programas de terceiros, estabelecendo
+                        a interface entre o computador e o usuário.</p>
+                        <p>Entenda como um “computador” qualquer máquina de processamento automático de
+                        dados, como um desktop ou notebook, um celular ou tablet, um smartwatch, um servidor,
+                        um videogame, um set-top box, um roteador ou outro quaisquer outros aparelhos.</p>
+                        <p>O sistema operacional introduz uma “camada de abstração” entre o hardware e o
+                        usuário, que transforma comandos no mouse ou teclado e solicitações do sistema,
+                        como gerenciamento de recursos, CPU, Memória RAM, em linguagem de máquina, enviando
+                        instruções ao processador. Este último os traduz para código binário, executa os
+                        comandos e envia as respostas como informações que aparecem na sua tela.
+                        Um sistema operacional contém componentes divididos entre os para o usuário,
+                        como bibliotecas, programas e interface, e as instruções que compõem o seu núcleo,
+                        kernel.</p>
+                        <p>No projeto em questão, será abordado o sistema operacional Linux Debian,
+                        feita toda as configurações abordadas.</p>
+            </div>
+        </section>
+        
+        <!--Preparando o ambiente para o projeto-->
+        <section class="section css-structure" id="parteTres">
+        	<div class="sec-title">
+            	<span class="icon fa fa-cogs"></span>
+                <h2>Preparando o ambiente para o projeto</h2>
+            </div>
+            <br>
+            <div class="sec-content">
+                <h2>3. Preparando o ambiente para o projeto.</h2>
+                <br>
+                    <p>Para realizar o projeto, será criada duas máquinas virtuais no sistema Virtual-Box,
+                        uma simulando o servidor identificada como <i>serverProj</i>. A outra máquina será,
+                        simulando a cliente identificada como <i>clienteProj</i>.</p>
+                    <p>Após a instalação de uma máquina virtual, foi feita a clonagem para ser modificada
+                        suas identificações e posteriormente, ser realizada as configurações.</p>
+                    <br>
+                <h3>3.1 Ambiente Servidor</h3>
+                    <p>Neste projeto foi desabilitada a interface gráfica do servidor para tornar
+                        o ambiente o mais próximo possível realizado em empresas.</p>
+                    <p>Identificando a interface gráfica no Debian. Com o comando digitado no terminal
+                        <i>systemctl get-default</i>, retornará como resultado a interface padrão
+                        <i>graphical.target</i>. Após a identificação, realizamos a remoção da mesma
+                        com o comando <i>systemctl set-default multi-user.target</i>.</p>
+                <br>
+                <h4><strong>1º Passo: Visualizando a interface gráfica.</strong></h4>
+                <figure class="image-box"><img src="images/imagem01.png" alt=""></figure>
+                <br>
+                <h4><strong>2º Passo: Removendo a interface gráfica:</strong></h4>
+                <br>
+                <p>Lembrando que após este processo, será necessário reiniciar a máquina virtual
+                    com o comando <i>systemctl reboot</i>.</p>
+                <figure class="image-box"><img src="images/imagem02.png" alt=""></figure>
+                <br>
+                <h3>3.2 Ambiente Cliente</h3>
+                <br>
+                <p>O processo para realizar o ambiente do cliente é mais simples, basta renomear o
+                    nome da máquina para ser mais fácil a identificação da mesma.</p>
+                <p>Para isso, acessamos a máquina cliente como administrador root, e posteriormente
+                    o diretório de configurações de sistemas /etc. Após este processo, acessamos o arquivo hostname para
+                    alterar o nome da máquina. Assim. Conclui a criação dos ambientes para o projeto.</p>
+                <br>
+                <h4><strong>1º Passo: Acessar o arquivo, <i>nano/etc/hostname</i>.</strong></h4>
+                <figure class="image-box"><img src="images/imagem03.png" alt=""></figure>
+                <br>
+                <h4><strong>2º Passo: Renomear e salvar.</strong></h4>
+                <figure class="image-box"><img src="images/imagem04.png" alt=""></figure>
+            </div>
+        </section>
+        <!--Servidores DHCP-->
+        <section class="section javascript" id="parteQuatro">
+        	<div class="sec-title">
+            	<span class="icon fa fa-cloud"></span>
+                <h2>Servidores DHCP</h2>
+            </div>
+            <br>
+            <div class="sec-content">
+                <h2>4. Servidores DHCP</h2>
+                <br>
+                <p>Dynamic Host Configuration Protocol ou simplesmente DHCP, é o nome de um protocolo
+                    TCP/IP que oferece serviços de configuração dinâmica em redes. Este protocolo
+                    fornece concessão de endereços IP de host, máscara de sub-rede e default gateway.</p>
+                <p>Para o projeto, instalamos o arquivo de configuração do servidor DHCP a fim de fornecer
+                    estes serviços para o cliente e, portanto, ambas as máquinas se comunicarem.</p>
+                <br>
+                <h3>4.1 Instalando servidor DHCP no serverProj</h3>
+                <p>Neste passo, estará todo o processo de instalação do servidor DHCP e configuração
+                    da interface das máquinas.</p>
+                <br>
+                <h4><strong>1º Passo: Inserir o comando apt-get install isc-dhcp-server</strong>.</h4>
+                <figure class="image-box"><img src="images/imagem05.png" alt=""></figure>
+                <br>
+                <h4><strong>2º Passo: Criando escopo de rede do servidor</strong>.</h4>
+                <p>Este processo consiste em copiar e renomear o arquivo <i>dhcpd.conf</i> para
+                    <i>dhcpd.conf.old</i>. Após a cópia, remover o arquivo anterior <i>dhcpd.conf</i>.
+                    Desta forma existira um arquivo onde não será feita alterações.</p>
+                <figure class="image-box"><img src="images/imagem06.png" alt=""></figure>
+                <br>
+                <h4><strong>3º Passo: Criando outro arquivo <i>dhcpd.conf</i></strong>.</h4>
+                <p>Onde será feita a configuração do espaço de rede. Comando, nano
+                    <i>/etc/dhcp/dhcpd.conf</i>.</p>
+                <figure class="image-box"><img src="images/imagem07.png" alt=""></figure>
+                <br>
+                <h4><strong>4º Passo: Adicionando a interface no servidor<strong>.</h4>
+                <p>Comando <i>nano/etc/default/isc-dhcp-server</i>.</p>
+                <figure class="image-box"><img src="images/imagem08.png" alt=""></figure>
+                <br>
+                <h4><strong>5º Passo: Configurando a interface adicionada</strong>.</h4>
+                <p>Comando nano <i>/etc/network/interfaces</i>.</p>
+                <figure class="image-box"><img src="images/imagem09.png" alt=""></figure>
+                <br>
+                <h4><strong>6º Passo: Verificar se as configurações estão corretas</strong>.</h4>
+                <p>Para isso, o comando <i>dhcpd -t</i> mostrará se alguma configuração esteja errada.</p>
+                <p>No nosso exemplo, tudo correto.</p>
+                <figure class="image-box"><img src="images/imagem10.png" alt=""></figure>
+                <br>
+                <h4><strong>7º Passo: Reiniciar a interface e a máquina servidor</strong>.</h4>
+                <p>Para este processo será necessário inserir o comando <i>ifdown enp0s8</i>.
+                    Após este processo <i>ifup enp0s8</i>.</p>
+                <p><b>OBS:</b> Em algumas máquinas será necessário reiniciá-las e também, adicionar uma
+                    outra interface nas configurações de rede no Virtual-Box. Passos; Ir em Configurações,
+                    Redes, Adaptador 2, habilitar nova interface e deixar como rede Interna. Neste mesmo
+                    local, posteriormente foi modificada para rede NAT, assim, o servidor se conectará
+                    com a internet.</p>
+                <br>
+                <h4><strong>8º Passo: Verificando a o Servidor DHCP ativo</strong>.</h4>
+                <p>Inserir o comando <i>systemctl status isc-dhcp-server</i>.</p>
+                <figure class="image-box"><img src="images/imagem11.png" alt=""></figure>
+                <br>
+                <h4><strong>9º Passo: Verificando as interfaces e com os devidos IPs</strong>.</h4>
+                <p>Com o comando <i>ip -a addr</i> mostrara as interfaces.</p>
+                <figure class="image-box"><img src="images/imagem12.png" alt=""></figure>
+                <br>
+                <h3>4.2 Configurando DHCP no cliente</h3>
+                <br>
+                <p>Neste processo é importante mudar as configurações padrões de rede no Virtual-Box
+                    da máquina cliente. Para isso, nas configurações de rede, trocar de NAT para rede
+                    interna no adaptador de rede. Após este processo, a máquina cliente se conectará
+                    com o servidor.</p>
+                <br>
+                <h4><strong>1º Passo: Verificando novo endereço de IP do cliente</strong>.</h4>
+                <p>Comando <i>ip -a addr</i>.</p>
+                <figure class="image-box"><img src="images/imagem13.png" alt=""></figure>
+                <br>
+                <h4><strong>2º Passo: Testando a conexão com o comando ping 192.168.1.1</strong>.</h4>
+                <figure class="image-box"><img src="images/imagem14.png" alt=""></figure>
+            </div>
+        </section>
+        
+        <!--Servidores DNS-->
+        <section class="section map-settings" id="parteCinco">
+        	<div class="sec-title">
+            	<span class="icon fa fa-globe"></span>
+                <h2>Servidores DNS</h2>
+            </div>
+            <br>
+            <div class="sec-content">
+                <h2>5. Servidores DNS</h2>
+                <br>
+                <p>O Sistema de Nomes de Domínio, é um sistema hierárquico e distribuído de gestão
+                    de nomes para computadores, serviços ou qualquer máquina conectada internet.</p>
+                <p>O DNS apresenta uma arquitetura cliente/servidor, podendo envolver vários servidores
+                    DNS na resposta a uma consulta. O servidor DNS resolve nomes para os endereços IP
+                    e de endereços IP para os nomes respectivos, permitindo a localização de hosts num
+                    determinado domínio.</p>
+                <br>
+                <h3>5.1 Instalando e configurando servidor DNS</h3>
+                <br>
+                <p>Para iniciar a instalação do servidor DNS, primeiro terá que baixar os pacotes
+                    essenciais, desta forma, fazer as devidas configurações nos arquivos.</p>
+                <p>Sendo assim, executar o comando <i>apt install bind9 dnsutils</i>. Observe que
+                    também estará baixando pacotes extras chamado <i>dnsutils</i>. Pois, este pacote
+                    serve para fazer consultas nos servidores DNS para descobrir informações sobre hosts
+                    da Internet.</p>
+                <p>Configurar as zonas de DNS. Uma zona de DNS é um espaço administrativo que permite
+                    um controle mais detalhado dos componentes do DNS, como os <i>nameservers</i>
+                    autoritativos. A zona de DNS começa em um domínio dentro da árvore e também pode
+                    se estender por subdomínios, de forma que múltiplos subdomínios possam ser gerenciados
+                    por uma entidade.</p>
+                <br>
+                <h4><strong>1º Passo: Executar o comando <i>nano /etc/bind/named.conf</i></strong>.</h4>
+                <figure class="image-box"><img src="images/imagem15.png" alt=""></figure>
+                <br>
+                <h4><strong>2º Passo: Criando arquivos de pesquisa de zona direta, o mesmo vinculado
+                    ao arquivo <i>named.conf</i></strong>.</h4>
+                <p>Usar o comando <i>nano /etc/bind/projeto.zone</i>.</p>
+                <figure class="image-box"><img src="images/imagem16.png" alt=""></figure>
+                <br>
+                <h4><strong>3º passo: Criando outro arquivo para interface de loopback</Strong>.</h4>
+                <p>Ira estar localizado no mesmo caminho, <i>/etc/bind/</i>. Portanto, usar o comando
+                    <i>nano /etc/bind/projeto.rev</i>.</p>
+                <figure class="image-box"><img src="images/imagem17.png" alt=""></figure>
+                <br>
+                <h4><strong>4º Passo: Inserir o IP do servidor no arquivo <i>resolv.conf</i>.</h4>
+                <p>Pois o mesmo é responsável por buscar o servidor DNS para resolver nomes na rede.</p>
+                <p>Comando <i>nano /etc/resolv.conf</i>.</h4>
+                <figure class="image-box"><img src="images/imagem18.png" alt=""></figure>
+                <br>
+                <h4><strong>5º Passo: Verificar se todas as configurações estão corretas.</strong></h4>
+                <p>Usar os seguintes comandos:</p>
+                <ul>
+                    <li><i>named-checkconf /etc/bind/named.conf</i></li>
+                    <li><i>named-checkzone projeto.br /etc/bind/projeto.zone</i></li>
+                    <li><i>named-checkzone 168.192.in-addr.arpa</i></li>
+                <figure class="image-box"><img src="images/imagem19.png" alt=""></figure>
+                <br>
+                <h4><strong>6º Passo: Reiniciar o serviço Bind9</strong>.</h4>
+                <p>Usar o comando <i>systemctl restart bind9</i>. Após este processo, verificar o status
+                    do servidor DNS. Comando <i>systemctl status bind9<i>.</p>
+                <figure class="image-box"><img src="images/imagem20.png" alt=""></figure>
+                <br>
+                <h4><strong>7º Passo: O arquivo hosts tem a função de mapear um nome para um
+                    endereço IP</strong>.</h4>
+                <p>Normalmente, é utilizado em conjunto com uma Virtual Host para configurar um
+                    ambiente de desenvolvimento. Comando <i>nano /etc/hosts</i>.</p>
+                <figure class="image-box"><img src="images/imagem21.png" alt=""></figure>
+                <br>
+                <h4><strong>8º Passo: Testes com o dig, é uma ferramenta de redes de computadores,
+                    utilizada para consultas sobre registos de DNS de um domínio, host ou IP</strong>.</h4>
+                <p>Comando <i>dig 192.168.1.1</i>.</p>
+                <figure class="image-box"><img src="images/imagem22.png" alt=""></figure>
+                <br>
+                <h4><strong>9º Passo: Usando dig, Domain Information Groper, para resolver
+                    um nome</strong>.</h4>
+                <p>Comando <i>dig projeto.br</i>.</p>
+                <figure class="image-box"><img src="images/imagem23.png" alt=""></figure>
+                <br>
+                <h4><strong>10º Passo: Teste com nslookup</strong>.</h4>
+                <p>Comando <i>nslookup 192.168.1.1</i> e <i>nslookup ns.projeto.br</i>.</p>
+                <figure class="image-box"><img src="images/imagem24.png" alt=""></figure>
+                <br>
+                <h4><strong>11º Passo: Verificar interfaces de rede e postas</strong>.</h4>
+                <p>Comando  <i>netstat -anu|grep 53</i>.</p>
+                <figure class="image-box"><img src="images/imagem25.png" alt=""></figure>
+                <br>
+                <h3>5.2 Testando configuração com máquina cliente</h3>
+                <br>
+                <p>Este processo consiste em indicar na máquina cliente o servidor DNS.
+                    Também no arquivo <i>resolv.conf</i>, inserir o domínio e endereço de servidor DNS.</p>
+                <br>
+                <h4><strong>1º Passo: Inserir os domínio e endereço</strong>.</h4>
+                <p>Comando <i>nano /etc/resolv.conf</i>.</p>
+                <figure class="image-box"><img src="images/imagem26.png" alt=""></figure>
+                <br>
+                <h4><strong>2º Passo: Testes com ferramenta dnsultis previamente instalada</strong>.</h4>
+                <p>Para usá-la, usar o comando dig mais o endereço ou nome do domínio e, <i>nslookup</i>
+                    mais endereço ou nome do domínio. Teste usando <i>dig 192.168.1.1</i>.</p>
+                <figure class="image-box"><img src="images/imagem27.png" alt=""></figure>
+                <br>
+                <h4><strong>3º Passo: Teste com <i>nslookup</i></strong>.</h4>
+                <p>Comandos <i>nslookup vitor.projeto.br, nslookup jonas.projeto.br, nslookup
+                    jcarlos.projeto.br</i>.</p>
+                <figure class="image-box"><img src="images/imagem28.png" alt=""></figure>
+            </div>
+        </section>
+        
+
+        
+        <!--Servidor WEB-->
+        <section class="section contact-form" id="parteSeis">
+        	<div class="sec-title">
+            	<span class="icon fa fa-hdd-o"></span>
+                <h2>Servidor WEB</h2>
+            </div>
+            <br>
+            <div class="sec-content">
+                <h2>6. Servidor WEB</h2>
+                <br>
+                <p>Servidores WEB são computadores com software específicos responsável por aceitar pedidos
+                    HTTP de clientes, geralmente os navegadores, e servi-los com respostas HTTP, incluindo
+                    opcionalmente dados, que geralmente são páginas web, tais como documentos HTML com objetos
+                    embutidos, imagens, textos, mídia e etc. Neste projeto, foi instalado o servidor
+                    WEB Apache.</p>
+                <br>
+                <h3>6.1 Instalando e configurando servidor WEB</h3>
+                <br>
+                <p>O processo de instalação consiste em usar as ferramentas e pacotes do apache2.
+                    Para instalar, com o comando <i>apt-get install apache2</i> foi baixado
+                    todos os serviços necessários para o projeto.</p>
+                <p>A princípio, será necessário ativar os modulo de segurança SSL. Ao ativar
+                    este serviço os servidores podem enviar tráfego com segurança entre servidores
+                    e clientes sem a possibilidade de mensagens serem interceptadas por agentes externos.</p>
+                <br>
+                <h4><strong>1º Passo: Para ativar o serviço SS</strong>.</h4>
+                <p>Comando <i>a2enmod ssl</i>. Após este processo, listamos os serviços ssl.conf
+                    e ssl.load. Diretório <i>/etc/apache2/</i>.</p>
+                <figure class="image-box"><img src="images/imagem29.png" alt=""></figure>
+                <br>
+                <h4><strong>2º Passo: Reiniciar o serviço Apache2</strong>.</h4>
+                <p>Comandos  <i>systemctl restart apache2.service</i> e para ver o resultado,
+                    <i>systemctl status apache2.service</i>.</p>
+                <figure class="image-box"><img src="images/imagem30.png" alt=""></figure>
+                <br>
+                <h4><strong>3º Passo: Criando um certificado SSL com o arquivo
+                    <i>default-ssl.conf</i></strong>.</h4>
+                <p>Este certificado é usado para criptografar o conteúdo enviado para clientes.
+                    Comando <i>a2ensitedefault-ssl.conf</i>. Após este processo, reiniciamos o serviço.
+                    Diretório <i>/var/www/html/</i>.</p>
+                <figure class="image-box"><img src="images/imagem31.png" alt=""></figure>
+                <br>
+                <h4><strong>4º Passo: Fazer uma cópia do arquivo <i>000-default.conf</i>
+                    editá-lo</strong>.</h4>
+                <p>No projeto em questão utilizamos o nome <i>meuprojeto</i>. Processo feito no diretório
+                    <i>/etc/apache2/</i>.</p>
+                <figure class="image-box"><img src="images/imagem32.png" alt=""></figure>
+                <br>
+                <h4><strong>5º Passo: Altera arquivo novo chamado <i>meuprojeto</i></strong>.</h4>
+                <p>No item ServerName adicionar o nome do site. No projeto usamos o site
+                    <i>www.meuprojeto.com</i>. No item DocumentRoot, adicionar o caminho onde está localizado
+                    seus arquivos html e etc.</p>
+                <figure class="image-box"><img src="images/imagem33.png" alt=""></figure>
+                <br>
+                <h4><strong>6º Passo: Ativar e reiniciar o arquivo <i>meuprojeto</i> e os serviços
+                    Apache2</strong>.</h4>
+                <p>Comando <i>a2ensite meuprojeto.conf</i>. Diretório <i>/etc/apache2/sites-available</i>.</p>
+                <figure class="image-box"><img src="images/imagem34.png" alt=""></figure>
+                <br>
+                <h3>6.2 Testes na máquina cliente</h3>
+                <br>
+                <p>O teste na máquina cliente consiste em usar um arquivo previamente criado no servidor WEB,
+                    localizado no diretório <i>var/www/html</i> onde consta outros arquivos.</p>
+                <figure class="image-box"><img src="images/imagem35.png" alt=""></figure>
+                <br>
+                <h4><strong>1º Passo: Testando acesso a página já com o certificado SSL</strong>.</h4>
+                <figure class="image-box"><img src="images/imagem36.png" alt=""></figure>
+                <br>
+                <h4><strong>2º Passo: Configuração para testar o DNS resolver nome localmente</strong>.</h4>
+                <p><b>Observação:</b> Para realizar este processo, será necessário altera o arquivo
+                    <i>resolv.conf</i> e desabilitar <i>nameservar</i> com o endereço 192.168.1.1.
+                    Após este processo, acessar o arquivo <i>/etc/host/</i> e adicionar o endereço
+                    192.168.1.1 e o nome do site. Desta forma, basta digitar no navegador da máquina
+                    cliente www.meuprojeto.com que o site irá abrir.</p>
+                <figure class="image-box"><img src="images/imagem37.png" alt=""></figure>
+            </div>
+        </section>
+        
+        <!--Servidor de Compartilhamento de Arquivo com Protocolo NFS-->
+        <section class="section sources-credits" id="parteSete">
+        	<div class="sec-title">
+            	<span class="icon fa fa-folder-open"></span>
+                <h2>Servidor de Compartilhamento de Arquivo com Protocolo NFS</h2>
+            </div>
+            <br>
+            <div class="sec-content">
+            	<h2>7. Servidor de Compartilhamento de Arquivo com Protocolo NFS</h2>
+                <br>
+                <p>O protocolo NFS, Network File System, é um sistema de arquivos distribuídos
+                responsável por compartilhar diretórios e arquivos entre servidores e clientes.
+                O cliente NFS tem por finalidade tornar o acesso remoto transparente para o usuário
+                do computador, e esta interface cliente e servidor, executada pelo NFS através dos
+                protocolos Cliente-Servidor, fica bem definida quando o usuário, ao chamar um
+                arquivo/diretório no servidor, lhe parece estar acessando localmente, sendo que
+                está trabalhando com arquivos remotamente.</p>
+                <br>
+                <h3>7.1 Instalando Servidor NFS</h3>
+                <br>
+                <p>O processo de instalação do servidor consiste em baixar o pacote do protocolo NFS com
+                o comando <i>apt-get install nfs-kernel-server</i>. Após isso, criar um diretório
+                para poder fazer o compartilhamento entre o cliente, sendo assim, concluir sua montagem
+                no diretório <i>/etc/mnt</i>.</p>
+                <br>
+                <h4><strong>1º Passo: Acessar o diretório <i>/etc/mnt/</i> e criar uma parta, no projeto
+                criamos o cnfs e projetoNFS</strong>.</h4>
+                <figure class="image-box"><img src="images/imagem38.png" alt=""></figure>
+                <br>
+                <h4><strong>2º Passo: Posteriormente, criamos um arquivo chamado projeto.txt e adicionamos
+                informações com o comando <i>nano projeto.txt</i></strong>.</h4>
+                <figure class="image-box"><img src="images/imagem39.png" alt=""></figure>
+                <br>
+                <h4><strong>3º Passo: Neste passo é editar o arquivo <i>/etc/exports</i>.
+                <p>Nele deverão ser colocados o diretório do servidor que vai ser compartilhado com a
+                máquina cliente, o número do IP da máquina que estará acessando o servidor e por fim
+                as opções de segurança. Comando <i>nano /etc/exports</i>, adicionar o diretório cnfs
+                criado anteriormente e IP 192.168.1.0/24, por fim, as permissões de acesso.</p>
+                <figure class="image-box"><img src="images/imagem40.png" alt=""></figure>
+                <br>
+                <h4><strong>4ª Passo: Neste processo, inserimos o comando <i>exportfs -a</i> é usado
+                para manter a tabela dos sistemas de arquivos exportados via NFS</strong>.</h4>
+                <p>Essa tabela é armazenada no arquivo <i>/var/lib/nfs/etab</i> que é lido pelo
+                <i>daemon mountd</i> quando um cliente solicita acesso para montar o sistema de
+                arquivos exportado.</p>
+                <figure class="image-box"><img src="images/imagem41.png" alt=""></figure>
+                <br>
+                <h4><strong>5º Passo: Após concluir a instalação, reiniciar o sistema NFS</strong>.</h4>
+                <p>Comando <i>systemctl restart nfs-server</i> e comando para ver o status, <i>systemctl
+                status nfs-server</i>.</p>
+                <figure class="image-box"><img src="images/imagem42.png" alt=""></figure>
+                <br>
+                <h3>7.2 Instalando NFS na máquina cliente</h3>
+                <br>
+                <p>Na máquina cliente, temos que fazer a montagem do diretório compartilhado pelo servidor.
+                Os parâmetros utilizados é comando mount, tipo do protocolo, IP do servidor e endereço
+                de onde está sendo montado o compartilhamento na máquina cliente.</p>
+                <br>
+                <h4><strong>1º Passo: Desta forma, inserimos o comando <i>mount -t nfs
+                192.168.1.1/mnt/cnfs /mnt</i></strong>.</h4>
+                <p>Após este processo, inserir o comando <i>mount</i> novamente, logo, exibirá os diretórios
+                montados com o endereço do servidor.</p>
+                <figure class="image-box"><img src="images/imagem43.png" alt=""></figure>
+                <br>
+                <h4><strong>2º Passo: Nesta etapa, é só descer até as últimas informações do
+                <i>mount</i> e observar se o mesmo foi configurado corretamente</strong>.</h4>
+                <figure class="image-box"><img src="images/imagem44.png" alt=""></figure>
+                <br>
+                <h4><strong>3º Passo: Neste processo, vamos listar no diretório /mnt as pastas com seus
+                arquivos oriundos do servidor</strong>.</h4>
+                <p>Comando <i>cd /mnt</i>. E por fim, podemos exibir o conteúdo do arquivo projeto.txt com o
+                comando <i>cat projeto.txt</i>.</p>
+                <figure class="image-box"><img src="images/imagem45.png" alt=""></figure>
+            </div>
+        </section>
+        
+        <!--Referências-->
+        <section class="section support" id="parteOito">
+        	<div class="sec-title">
+            	<span class="icon fa fa-book"></span>
+                <h2>Referências</h2>
+            </div>
+            <div class="sec-content">
+                <h2>8. Referências</h2>
+                <br>
+                <ul>
+                    <li><a href="https://developer.mozilla.org/pt-BR/docs/Learn/Common_questions/What_is_a_web_server" target="_blank">Mozilla</a></li>
+                    <li><a href="https://pt.wikipedia.org/wiki/Servidor_web" target="_blank">Wikipedia (Pt)</a></li>
+                    <li><a href="https://canaltech.com.br/internet/o-que-e-dns/" target="_blank">Canaltech</a></li>
+                    <li><a href="https://en.wikipedia.org/wiki/Name_server" target="_blank">Wikipedia (En)</a></li>
+                    <li><a href="https://linuxeprogramacao.blogspot.com/2013/07/configuracao-de-um-servidor-dhcp.html" target="_blank">Blog Linux e Programação</a></li>
+                    <li><a href="https://www.vivaolinux.com.br/topico/Debian/Erro-ao-iniciar-isc-dhcp-server" target="_blank">Viva o Linux</a></li>
+                    <li><a href="https://servidordebian.org/pt/wheezy/intranet/dhcp/server" target="_blank">Servidor Debian</a></li>
+                    <li><a href="https://pplware.sapo.pt/linux/configuracao-de-um-servidor-e-cliente-nfs-no-centos-7/" target="_blank">PPL Ware</a></li>
+                    <li><a href="https://debian-handbook.info/browse/pt-BR/stable/sect.nfs-file-server.html" target="_blank">Debian Handbook</a></li>
+                    <li><a href="https://pt.wikipedia.org/wiki/Network_File_System" target="_blank">Wikipedia (Pt)</a></li>
+                </ul>
+            </div>
+        </section>
+    </div>
+</div>
+
+<!--End pagewrapper-->
+
+<script src="js/jquery.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.nav.js"></script>
+<script src="js/jquery.scrollTo.js"></script>
+<script src="js/scrollbar.js"></script>
+<script src="js/script.js"></script>
+</body>
+</html>
